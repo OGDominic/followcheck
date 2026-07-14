@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -119,6 +120,20 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col font-sans relative overflow-x-hidden bg-grid-pattern">
+        {/* Google Analytics (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-TLGF9JDJLF"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-TLGF9JDJLF');
+          `}
+        </Script>
+
         {/* Ambient background glows */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
           <div className="orb-glow-1" />
