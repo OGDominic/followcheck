@@ -23,7 +23,8 @@
   "externally_connectable": {
     "matches": [
       "http://localhost:3000/*",
-      "https://followcheck.com/*"
+      "https://www.whofollowsback.com/*",
+      "https://whofollowsback.com/*"
     ]
   },
   "side_panel": {
