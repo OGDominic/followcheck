@@ -135,7 +135,7 @@ export default function DetailedOnboardingGuide() {
               
               <div className="space-y-3">
                 <a
-                  href="https://chromewebstore.google.com"
+                  href="https://chromewebstore.google.com/detail/followcheck/ienniibalbkpejfgphanhdnpggpopbme?authuser=0&hl=en"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl bg-electric text-sm font-bold text-white hover:bg-electric/95 active:scale-98 transition-all shadow-sm"

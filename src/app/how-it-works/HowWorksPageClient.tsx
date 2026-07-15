@@ -299,7 +299,7 @@ export default function HowItWorksPageClient() {
             
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
               <a
-                href="https://chromewebstore.google.com"
+                href="https://chromewebstore.google.com/detail/followcheck/ienniibalbkpejfgphanhdnpggpopbme?authuser=0&hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-electric text-sm font-bold text-white hover:bg-electric/95 active:scale-98 transition-all shadow-sm"

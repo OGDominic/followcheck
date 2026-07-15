@@ -46,7 +46,7 @@ export default function CTASection() {
             {/* Button */}
             <div className="pt-2 flex flex-col items-center justify-center">
               <a
-                href="https://chromewebstore.google.com"
+                href="https://chromewebstore.google.com/detail/followcheck/ienniibalbkpejfgphanhdnpggpopbme?authuser=0&hl=en"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group inline-flex h-12 items-center justify-center rounded-xl bg-electric px-8 text-sm font-semibold text-white shadow-md hover:bg-electric/95 active:scale-98 transition-all btn-transition"

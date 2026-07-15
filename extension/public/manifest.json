@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "FollowCheck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Analyze follower and following connections to discover mutuals and non-followers on Instagram.",
   "permissions": [
     "storage",

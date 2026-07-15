@@ -321,7 +321,7 @@ export default function ResultsPageClient() {
 
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <a
-                    href="https://chromewebstore.google.com"
+                    href="https://chromewebstore.google.com/detail/followcheck/ienniibalbkpejfgphanhdnpggpopbme?authuser=0&hl=en"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-electric text-sm font-bold text-white hover:bg-electric/95 transition-all shadow-xs"
