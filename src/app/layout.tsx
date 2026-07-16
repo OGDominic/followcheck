@@ -12,6 +12,18 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://followcheck.com"),
   title: "Who Doesn't Follow Me Back on Instagram? | FollowCheck",
   description: "See who doesn't follow you back on Instagram. Find non-followers, mutuals, and more with a simple privacy-first follower checker.",
+  keywords: [
+    "who doesn't follow me back on instagram",
+    "instagram follower checker",
+    "instagram unfollower checker",
+    "unfollowers instagram",
+    "instagram mutual followers",
+    "free instagram follower checker",
+    "instagram non followers",
+    "check instagram unfollowers",
+    "instagram tracker",
+    "unfollow tracker"
+  ],
   alternates: {
     canonical: "/",
   },
@@ -22,11 +34,20 @@ export const metadata: Metadata = {
     siteName: "FollowCheck",
     locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "FollowCheck - Free Instagram Follower Checker",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Who Doesn't Follow Me Back on Instagram? | FollowCheck",
     description: "See who doesn't follow you back on Instagram. Find non-followers, mutuals, and more with a simple privacy-first follower checker.",
+    images: ["/og-image.png"],
   },
 };
 
@@ -103,6 +124,26 @@ export default function RootLayout({
     ]
   };
 
+  const softwareSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "FollowCheck",
+    "operatingSystem": "Chrome OS, Windows, macOS, Linux",
+    "applicationCategory": "BrowserApplication",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "installUrl": "https://chromewebstore.google.com/detail/followcheck/ienniibalbkpejfgphanhdnpggpopbme?authuser=0&hl=en",
+    "description": "Analyze follower and following connections to discover mutuals and non-followers on Instagram securely without passwords.",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "ratingCount": "18"
+    }
+  };
+
   return (
     <html
       lang="en"
@@ -117,6 +158,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(softwareSchema) }}
         />
       </head>
       <body className="min-h-full flex flex-col font-sans relative overflow-x-hidden bg-grid-pattern">
