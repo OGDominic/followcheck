@@ -150,6 +150,12 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased`}
     >
       <head>
+        {/* Google AdSense Verification */}
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7401485493252707"
+          crossOrigin="anonymous"
+        />
         {/* Structured Data injection */}
         <script
           type="application/ld+json"
