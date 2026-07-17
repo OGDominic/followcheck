@@ -1,14 +1,17 @@
 {
   "manifest_version": 3,
   "name": "FollowCheck",
-  "version": "0.1.1",
+  "version": "0.1.4",
   "description": "Analyze follower and following connections to discover mutuals and non-followers on Instagram.",
   "permissions": [
     "storage",
-    "sidePanel"
+    "sidePanel",
+    "tabs"
   ],
   "host_permissions": [
-    "*://*.instagram.com/*"
+    "*://*.instagram.com/*",
+    "http://localhost:3000/*",
+    "https://*.whofollowsback.com/*"
   ],
   "background": {
     "service_worker": "background.js",

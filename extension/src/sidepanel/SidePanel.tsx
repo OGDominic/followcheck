@@ -12,8 +12,8 @@ import {
 import { storage } from "../lib/storage";
 import { compareConnections } from "../lib/comparator";
 import { AnalysisResult, InstagramState, ScanProgress } from "../lib/types";
-import { ExtensionMessage } from "../lib/messages";
 import { FOLLOWCHECK_WEB_ORIGIN } from "../lib/config";
+import { trackExtensionUse } from "../lib/tracker";
 
 export default function SidePanel() {
   // Application States
@@ -26,6 +26,20 @@ export default function SidePanel() {
   const [results, setResults] = useState<AnalysisResult | null>(null);
   const [privacyChecked, setPrivacyChecked] = useState(false);
   const [checkingState, setCheckingState] = useState(true);
+
+  // Check Instagram tab helper
+  const checkInstagramTab = async () => {
+    if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
+      try {
+        const response = await chrome.runtime.sendMessage({ type: "CHECK_INSTAGRAM_STATE" });
+        if (response && response.state) {
+          setIgState(response.state);
+        }
+      } catch (err) {
+        console.error("Error checking Instagram state:", err);
+      }
+    }
+  };
 
   // Initialize and load cached data
   useEffect(() => {
@@ -43,7 +57,7 @@ export default function SidePanel() {
     init();
 
     // Listen for scanning updates from background script
-    const messageListener = (message: ExtensionMessage) => {
+    const messageListener = (message: any) => {
       console.log("[FollowCheck SidePanel] Received message:", message);
       
       if (message.type === "SCAN_PROGRESS") {
@@ -61,39 +75,57 @@ export default function SidePanel() {
           followersScanned: message.followers.length,
           followingScanned: message.following.length,
         });
+
+        // Track scan completion
+        trackExtensionUse(message.currentUser, "scan_complete", {
+          followersCount: message.followers.length,
+          followingCount: message.following.length,
+        });
       } else if (message.type === "SCAN_ERROR") {
         setScanProgress((prev) => ({
           ...prev,
           status: "error",
           error: message.error,
         }));
+      } else if (message.type === "CONTENT_SCRIPT_READY") {
+        // Content script loaded, re-check Instagram state
+        checkInstagramTab();
       }
     };
 
-    if (typeof chrome !== "undefined" && chrome.runtime?.onMessage) {
-      chrome.runtime.onMessage.addListener(messageListener);
+    // Add tab event listeners to automatically refresh Instagram ready status
+    const tabActivatedListener = () => {
+      checkInstagramTab();
+    };
+
+    const tabUpdatedListener = (_tabId: number, changeInfo: chrome.tabs.TabChangeInfo) => {
+      if (changeInfo.status === "complete") {
+        checkInstagramTab();
+      }
+    };
+
+    if (typeof chrome !== "undefined") {
+      if (chrome.runtime?.onMessage) {
+        chrome.runtime.onMessage.addListener(messageListener);
+      }
+      if (chrome.tabs) {
+        chrome.tabs.onActivated.addListener(tabActivatedListener);
+        chrome.tabs.onUpdated.addListener(tabUpdatedListener);
+      }
     }
 
     return () => {
-      if (typeof chrome !== "undefined" && chrome.runtime?.onMessage) {
-        chrome.runtime.onMessage.removeListener(messageListener);
+      if (typeof chrome !== "undefined") {
+        if (chrome.runtime?.onMessage) {
+          chrome.runtime.onMessage.removeListener(messageListener);
+        }
+        if (chrome.tabs) {
+          chrome.tabs.onActivated.removeListener(tabActivatedListener);
+          chrome.tabs.onUpdated.removeListener(tabUpdatedListener);
+        }
       }
     };
   }, []);
-
-  // Check Instagram tab helper
-  const checkInstagramTab = async () => {
-    if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
-      try {
-        const response = await chrome.runtime.sendMessage({ type: "CHECK_INSTAGRAM_STATE" });
-        if (response && response.state) {
-          setIgState(response.state);
-        }
-      } catch (err) {
-        console.error("Error checking Instagram state:", err);
-      }
-    }
-  };
 
   // Button actions
   const handleOpenInstagram = () => {
@@ -113,6 +145,11 @@ export default function SidePanel() {
       followingScanned: 0,
     });
     setResults(null);
+
+    // Track scan start
+    if (igState.username) {
+      trackExtensionUse(igState.username, "scan_start");
+    }
 
     if (typeof chrome !== "undefined" && chrome.runtime?.sendMessage) {
       try {
@@ -163,7 +200,7 @@ export default function SidePanel() {
       {/* Header */}
       <div className="header">
         <span className="logo">FollowCheck</span>
-        {appState === "READY" && (
+        {(appState === "READY" || appState === "NOT_ON_INSTAGRAM" || appState === "NOT_LOGGED_IN") && (
           <button 
             onClick={checkInstagramTab} 
             className="btn btn-secondary" 
@@ -191,9 +228,14 @@ export default function SidePanel() {
             <p style={{ color: "var(--muted)", fontSize: "12px", lineHeight: 1.5, marginBottom: "20px" }}>
               Please open Instagram in your active tab to analyze your follower connections.
             </p>
-            <button onClick={handleOpenInstagram} className="btn btn-primary">
-              Open Instagram
-            </button>
+            <div style={{ display: "flex", gap: "8px", width: "100%" }}>
+              <button onClick={handleOpenInstagram} className="btn btn-primary" style={{ flex: 1 }}>
+                Open Instagram
+              </button>
+              <button onClick={checkInstagramTab} className="btn btn-secondary" style={{ flex: 1, padding: "0 12px" }}>
+                Check Tab
+              </button>
+            </div>
           </div>
         </div>
       )}
@@ -207,9 +249,14 @@ export default function SidePanel() {
             <p style={{ color: "var(--muted)", fontSize: "12px", lineHeight: 1.5, marginBottom: "20px" }}>
               Please sign in to your Instagram account to initiate connection checks.
             </p>
-            <button onClick={handleOpenInstagram} className="btn btn-primary">
-              Go to Instagram
-            </button>
+            <div style={{ display: "flex", gap: "8px", width: "100%" }}>
+              <button onClick={handleOpenInstagram} className="btn btn-primary" style={{ flex: 1 }}>
+                Go to Instagram
+              </button>
+              <button onClick={checkInstagramTab} className="btn btn-secondary" style={{ flex: 1, padding: "0 12px" }}>
+                Check Status
+              </button>
+            </div>
           </div>
         </div>
       )}

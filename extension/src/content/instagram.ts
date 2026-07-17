@@ -230,3 +230,9 @@ chrome.runtime.onMessage.addListener((message: ExtensionMessage, _sender, sendRe
 
   return false;
 });
+
+// Notify background and sidepanel that content script is initialized
+chrome.runtime.sendMessage({ type: "CONTENT_SCRIPT_READY" }).catch((err) => {
+  console.log("[FollowCheck Content] Failed to send initialization ready signal:", err.message);
+});
+

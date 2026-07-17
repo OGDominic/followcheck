@@ -1,7 +1,15 @@
 // FollowCheck Chrome Extension Configuration
 
-// Set to true in development, false in production
-export const IS_DEV = false;
+// Automatically detects if running as unpacked developer extension or Chrome Web Store build
+const getIsDev = (): boolean => {
+  if (typeof chrome !== "undefined" && chrome.runtime && typeof chrome.runtime.getManifest === "function") {
+    const manifest = chrome.runtime.getManifest();
+    return !manifest.update_url;
+  }
+  return false;
+};
+
+export const IS_DEV = getIsDev();
 
 export const FOLLOWCHECK_DEV_ORIGIN = "http://localhost:3000";
 
