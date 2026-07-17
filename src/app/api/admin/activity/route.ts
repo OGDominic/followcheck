@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { getLogs, clearLogs } from "@/lib/db";
 
-const DATA_DIR = path.join(process.cwd(), "src", "data");
-const DATA_FILE = path.join(DATA_DIR, "activity.json");
+// Explicitly use the standard Node.js serverless environment to support file/in-memory DB
+export const runtime = "nodejs";
+
 const DEFAULT_PASSWORD = "86808680";
 
 // Helper to authenticate the admin password
@@ -49,18 +49,7 @@ export async function GET(request: Request) {
   }
 
   try {
-    let logs = [];
-    try {
-      const fileData = await fs.readFile(DATA_FILE, "utf-8");
-      logs = JSON.parse(fileData);
-    } catch {
-      // File doesn't exist yet, which is fine, return empty list
-    }
-
-    if (!Array.isArray(logs)) {
-      logs = [];
-    }
-
+    const logs = await getLogs();
     return NextResponse.json(logs, { status: 200, headers: corsHeaders });
   } catch (error: any) {
     console.error("Error reading admin activities:", error);
@@ -83,10 +72,7 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    // Write empty array to the file
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    await fs.writeFile(DATA_FILE, JSON.stringify([], null, 2), "utf-8");
-
+    await clearLogs();
     return NextResponse.json(
       { success: true, message: "Logs cleared successfully" },
       { status: 200, headers: corsHeaders }

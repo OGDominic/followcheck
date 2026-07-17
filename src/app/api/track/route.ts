@@ -1,37 +1,8 @@
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import { addLog, ActivityLog } from "@/lib/db";
 
-// Define the shape of a logged activity
-interface ActivityLog {
-  id: string;
-  username: string;
-  event: string;
-  details?: Record<string, any>;
-  timestamp: string;
-  ip: string;
-  country: string;
-  region: string;
-  city: string;
-  userAgent: string;
-}
-
-const DATA_DIR = path.join(process.cwd(), "src", "data");
-const DATA_FILE = path.join(DATA_DIR, "activity.json");
-
-// Helper to ensure data directory and file exist
-async function ensureDataFile() {
-  try {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-    try {
-      await fs.access(DATA_FILE);
-    } catch {
-      await fs.writeFile(DATA_FILE, JSON.stringify([], null, 2), "utf-8");
-    }
-  } catch (err) {
-    console.error("Failed to initialize tracking storage:", err);
-  }
-}
+// Explicitly use the standard Node.js serverless environment to support file/in-memory DB
+export const runtime = "nodejs";
 
 // CORS headers configuration helper
 function getCorsHeaders(request: Request) {
@@ -100,28 +71,8 @@ export async function POST(request: Request) {
       userAgent,
     };
 
-    // Save to file
-    await ensureDataFile();
-    let logs: ActivityLog[] = [];
-    try {
-      const fileData = await fs.readFile(DATA_FILE, "utf-8");
-      logs = JSON.parse(fileData);
-      if (!Array.isArray(logs)) {
-        logs = [];
-      }
-    } catch {
-      logs = [];
-    }
-
-    // Prepend the new activity so most recent appears first
-    logs.unshift(newLog);
-
-    // Keep log file to a reasonable size (e.g. limit to last 2000 events)
-    if (logs.length > 2000) {
-      logs = logs.slice(0, 2000);
-    }
-
-    await fs.writeFile(DATA_FILE, JSON.stringify(logs, null, 2), "utf-8");
+    // Save to hybrid database (in-memory + file)
+    await addLog(newLog);
 
     return NextResponse.json(
       { success: true, log: newLog },
