@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Privacy Policy | FollowCheck",
     description: "Read the FollowCheck Privacy Policy and learn how information is handled when you use our website and browser extension.",
-    url: "https://followcheck.com/privacy",
+    url: "https://www.whofollowsback.com/privacy",
     siteName: "FollowCheck",
     locale: "en_US",
     type: "website",

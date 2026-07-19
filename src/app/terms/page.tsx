@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Terms of Use | FollowCheck",
     description: "Read the FollowCheck Terms of Use governing access to our website and browser extension.",
-    url: "https://followcheck.com/terms",
+    url: "https://www.whofollowsback.com/terms",
     siteName: "FollowCheck",
     locale: "en_US",
     type: "website",

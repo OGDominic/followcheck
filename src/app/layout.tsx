@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://followcheck.com"),
+  metadataBase: new URL("https://www.whofollowsback.com"),
   title: "Who Doesn't Follow Me Back on Instagram? | FollowCheck",
   description: "See who doesn't follow you back on Instagram. Find non-followers, mutuals, and more with a simple privacy-first follower checker.",
   keywords: [
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Who Doesn't Follow Me Back on Instagram? | FollowCheck",
     description: "See who doesn't follow you back on Instagram. Find non-followers, mutuals, and more with a simple privacy-first follower checker.",
-    url: "https://followcheck.com",
+    url: "https://www.whofollowsback.com",
     siteName: "FollowCheck",
     locale: "en_US",
     type: "website",
@@ -61,10 +61,10 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "FollowCheck",
-    "url": "https://followcheck.com",
+    "url": "https://www.whofollowsback.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://followcheck.com/?q={search_term_string}",
+      "target": "https://www.whofollowsback.com/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };

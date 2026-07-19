@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "About FollowCheck | Simple Instagram Connection Analysis",
     description: "Learn about FollowCheck, a simple privacy-focused browser utility for understanding Instagram follower and following relationships.",
-    url: "https://followcheck.com/about",
+    url: "https://www.whofollowsback.com/about",
     siteName: "FollowCheck",
     locale: "en_US",
     type: "website",

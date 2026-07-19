@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Contact FollowCheck",
     description: "Contact FollowCheck for product support, privacy questions, feedback, or general inquiries.",
-    url: "https://followcheck.com/contact",
+    url: "https://www.whofollowsback.com/contact",
     siteName: "FollowCheck",
     locale: "en_US",
     type: "website",
