@@ -1,4 +1,4 @@
-import { guides } from "@/data/guides";
+import { seoRegistry } from "@/data/seo-registry";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Navbar from "@/components/Navbar";
@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default function GuidesPage() {
+  const guidesList = seoRegistry.filter((p) => p.category === "guides");
+
   return (
     <>
       <Navbar />
@@ -34,14 +36,14 @@ export default function GuidesPage() {
 
           {/* Guides Grid */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {guides.map((guide) => (
+            {guidesList.map((guide) => (
               <article 
                 key={guide.slug}
                 className="flex flex-col justify-between p-6 rounded-2xl border border-navy/5 bg-white shadow-xs hover:shadow-md hover:border-navy/10 transition-all duration-300 group"
               >
                 <div>
                   <span className="text-xs text-navy/40 font-semibold uppercase tracking-wider block mb-3">
-                    {guide.readTime}
+                    {guide.readTime || "5 min read"}
                   </span>
                   <h2 className="text-lg font-bold text-navy group-hover:text-electric transition-colors mb-3 leading-snug">
                     <Link href={`/guides/${guide.slug}`}>

@@ -1,4 +1,4 @@
-import { helpArticles } from "@/data/help";
+import { seoRegistry } from "@/data/seo-registry";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Navbar from "@/components/Navbar";
@@ -15,6 +15,8 @@ export const metadata: Metadata = {
 };
 
 export default function HelpPage() {
+  const helpArticlesList = seoRegistry.filter((p) => p.category === "help");
+
   return (
     <>
       <Navbar />
@@ -34,17 +36,12 @@ export default function HelpPage() {
 
           {/* Help articles catalog */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {helpArticles.map((article) => (
+            {helpArticlesList.map((article) => (
               <div 
                 key={article.slug}
                 className="p-6 rounded-2xl border border-navy/5 bg-white shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between group"
               >
                 <div>
-                  <div className="mb-3">
-                    <span className="inline-flex items-center rounded-md bg-navy/5 px-2 py-0.5 text-xs font-semibold text-navy/60">
-                      {article.category}
-                    </span>
-                  </div>
                   <h2 className="text-lg font-bold text-navy group-hover:text-electric transition-colors mb-2 leading-snug">
                     <Link href={`/help/${article.slug}`}>
                       {article.title}

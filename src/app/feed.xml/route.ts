@@ -1,11 +1,14 @@
-import { blogPosts } from "@/data/blog";
+import { seoRegistry } from "@/data/seo-registry";
 
 export async function GET() {
   const baseUrl = "https://www.whofollowsback.com";
+  const blogPosts = seoRegistry.filter((p) => p.category === "blog");
   
   const rssItems = blogPosts
     .map((post) => {
-      const pubDate = new Date(post.publishDate).toUTCString();
+      const pubDate = post.publishDate 
+        ? new Date(post.publishDate).toUTCString()
+        : new Date().toUTCString();
       return `
         <item>
           <title><![CDATA[${post.title}]]></title>

@@ -1,8 +1,9 @@
 import Link from "next/link";
-import { toolPages } from "@/data/tools";
-import { blogPosts } from "@/data/blog";
+import { seoRegistry } from "@/data/seo-registry";
 
 export default function SEOLinks() {
+  const toolPages = seoRegistry.filter((p) => p.category === "tools");
+  const blogPosts = seoRegistry.filter((p) => p.category === "blog");
   return (
     <div className="border-t border-navy/5 bg-navy/5/5 py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

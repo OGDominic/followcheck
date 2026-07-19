@@ -1,4 +1,4 @@
-import { blogPosts } from "@/data/blog";
+import { seoRegistry } from "@/data/seo-registry";
 import Link from "next/link";
 import Breadcrumbs from "@/components/Breadcrumbs";
 import Pagination from "@/components/Pagination";
@@ -22,6 +22,7 @@ interface PageProps {
 }
 
 export default async function BlogPage({ searchParams }: PageProps) {
+  const blogPosts = seoRegistry.filter((p) => p.category === "blog");
   const resolvedSearchParams = await searchParams;
   const currentPage = parseInt((resolvedSearchParams.page as string) || "1", 10);
   
