@@ -33,6 +33,11 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
+                <Link href="/tools" className="hover:text-white transition-colors">
+                  Auditing Tools
+                </Link>
+              </li>
+              <li>
                 <Link href="/#features" className="hover:text-white transition-colors">
                   Features
                 </Link>
@@ -57,6 +62,21 @@ export default function Footer() {
               <li>
                 <Link href="/contact" className="hover:text-white transition-colors">
                   Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog" className="hover:text-white transition-colors">
+                  Blog
+                </Link>
+              </li>
+              <li>
+                <Link href="/guides" className="hover:text-white transition-colors">
+                  Guides
+                </Link>
+              </li>
+              <li>
+                <Link href="/help" className="hover:text-white transition-colors">
+                  Help Center
                 </Link>
               </li>
             </ul>

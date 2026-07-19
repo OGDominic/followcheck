@@ -10,6 +10,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.whofollowsback.com"),
+  verification: {
+    google: "y6r2Q3f7uK9zZp5X1w4c7V8bB0mM3sS6xX8yY2aA",
+  },
   title: "Who Doesn't Follow Me Back on Instagram? | FollowCheck",
   description: "See who doesn't follow you back on Instagram. Find non-followers, mutuals, and more with a simple privacy-first follower checker.",
   keywords: [
@@ -67,6 +70,17 @@ export default function RootLayout({
       "target": "https://www.whofollowsback.com/?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
+  };
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "WhoFollowsBack",
+    "url": "https://www.whofollowsback.com",
+    "logo": "https://www.whofollowsback.com/icon.png",
+    "sameAs": [
+      "https://chromewebstore.google.com/detail/followcheck/ienniibalbkpejfgphanhdnpggpopbme"
+    ]
   };
 
   const faqSchema = {
@@ -150,6 +164,12 @@ export default function RootLayout({
       className={`${inter.variable} h-full antialiased`}
     >
       <head>
+        {/* DNS Preconnect for Performance Optimization */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+
         {/* Google AdSense Verification */}
         <script
           async
@@ -160,6 +180,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationSchema) }}
         />
         <script
           type="application/ld+json"
